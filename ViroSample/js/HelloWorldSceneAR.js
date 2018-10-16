@@ -13,7 +13,8 @@ import {
   ViroBox,
   Viro3DObject,
   ViroMaterials,
-  ViroAmbientLight
+  ViroAmbientLight,
+  ViroParticleEmitter
 } from 'react-viro';
 
 export default class HelloWorldSceneAR extends Component {
@@ -35,14 +36,31 @@ export default class HelloWorldSceneAR extends Component {
       <ViroARScene onTrackingUpdated={this._onInitialized} >
         <ViroAmbientLight color="white" />
         <ViroText text={this.state.text} scale={[.5, .5, .5]} position={[0, 0, -1]} style={styles.helloWorldTextStyle} />
+        
         <ViroARImageMarker target={"card"}>
-          <Viro3DObject source={require('./res/ArcticFox_Posed.obj')}
-            materials={['Fox']}
+          <Viro3DObject source={require('./res/volcano.obj')}
+            materials={['Volcano']}
             position={[0, 0, 0]} 
             scale={[.04, .04, .04]}
             rotation={[0,0,0]}
             type="OBJ"
           />
+          <ViroParticleEmitter
+            position={[0, 0, 0]}
+            duration={2000}
+            visible={true}
+            delay={0}
+            run={true}
+            loop={true}
+            fixedToEmitter={true}
+
+            image={{
+              source:require("./res/darkSmoke.png"),                 
+              height:0.1,
+              width:0.1,
+              bloomThreshold:1.0
+            }}
+/>
         </ViroARImageMarker>
       </ViroARScene>
     );
@@ -71,6 +89,10 @@ ViroMaterials.createMaterials({
   Fox: {
     lightingModel: "Blinn",
     diffuseTexture: require('./res/ArcticFox_Diffuse.png'),
+  },
+  Volcano: {
+    lightingModel: "Blinn",
+    diffuseTexture: require('./res/volcano.png'),
   }
 })
 

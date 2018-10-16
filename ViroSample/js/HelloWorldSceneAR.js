@@ -10,7 +10,10 @@ import {
   ViroConstants,
   ViroARImageMarker,
   ViroARTrackingTargets,
-  ViroBox
+  ViroBox,
+  Viro3DObject,
+  ViroMaterials,
+  ViroAmbientLight
 } from 'react-viro';
 
 export default class HelloWorldSceneAR extends Component {
@@ -30,9 +33,16 @@ export default class HelloWorldSceneAR extends Component {
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized} >
+        <ViroAmbientLight color="white" />
         <ViroText text={this.state.text} scale={[.5, .5, .5]} position={[0, 0, -1]} style={styles.helloWorldTextStyle} />
         <ViroARImageMarker target={"card"}>
-          <ViroBox position={[0, .25, 0]} scale={[.2, .2, .2]} />
+          <Viro3DObject source={require('./res/ArcticFox_Posed.obj')}
+            materials={['Fox']}
+            position={[0, 0, 0]} 
+            scale={[.04, .04, .04]}
+            rotation={[0,0,0]}
+            type="OBJ"
+          />
         </ViroARImageMarker>
       </ViroARScene>
     );
@@ -54,6 +64,13 @@ ViroARTrackingTargets.createTargets({
     source: require('./res/tio.png'),
     orientation: 'Up',
     physicalWidth: 0.1//meters
+  }
+})
+
+ViroMaterials.createMaterials({
+  Fox: {
+    lightingModel: "Blinn",
+    diffuseTexture: require('./res/ArcticFox_Diffuse.png'),
   }
 })
 

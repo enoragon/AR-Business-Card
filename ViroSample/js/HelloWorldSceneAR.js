@@ -8,6 +8,9 @@ import {
   ViroARScene,
   ViroText,
   ViroConstants,
+  ViroARImageMarker,
+  ViroARTrackingTargets,
+  ViroBox
 } from 'react-viro';
 
 export default class HelloWorldSceneAR extends Component {
@@ -28,6 +31,9 @@ export default class HelloWorldSceneAR extends Component {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized} >
         <ViroText text={this.state.text} scale={[.5, .5, .5]} position={[0, 0, -1]} style={styles.helloWorldTextStyle} />
+        <ViroARImageMarker target={"card"}>
+          <ViroBox position={[0, .25, 0]} scale={[.2, .2, .2]} />
+        </ViroARImageMarker>
       </ViroARScene>
     );
   }
@@ -42,6 +48,14 @@ export default class HelloWorldSceneAR extends Component {
     }
   }
 }
+
+ViroARTrackingTargets.createTargets({
+  "card": {
+    source: require('./res/tio.png'),
+    orientation: 'Up',
+    physicalWidth: 0.1//meters
+  }
+})
 
 var styles = StyleSheet.create({
   helloWorldTextStyle: {

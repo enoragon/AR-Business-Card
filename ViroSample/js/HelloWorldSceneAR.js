@@ -14,7 +14,8 @@ import {
   Viro3DObject,
   ViroMaterials,
   ViroAmbientLight,
-  ViroParticleEmitter
+  ViroParticleEmitter,
+  ViroAnimations
 } from 'react-viro';
 
 export default class HelloWorldSceneAR extends Component {
@@ -41,12 +42,13 @@ export default class HelloWorldSceneAR extends Component {
           <Viro3DObject source={require('./res/volcano.obj')}
             materials={['Volcano']}
             position={[0, 0, 0]} 
-            scale={[.04, .04, .04]}
+            scale={[1, 1, 1]}
             rotation={[0,0,0]}
+            animation={{name: 'rotate', run: true, loop: true}}
             type="OBJ"
           />
           <ViroParticleEmitter
-            position={[0, 0, 0]}
+            position={[0, .7, 0]}
             duration={2000}
             visible={true}
             delay={0}
@@ -56,11 +58,11 @@ export default class HelloWorldSceneAR extends Component {
 
             image={{
               source:require("./res/darkSmoke.png"),                 
-              height:0.1,
-              width:0.1,
-              bloomThreshold:1.0
+              height:0.5,
+              width:0.5,
+              bloomThreshold:0.5
             }}
-/>
+          />
         </ViroARImageMarker>
       </ViroARScene>
     );
@@ -94,7 +96,11 @@ ViroMaterials.createMaterials({
     lightingModel: "Blinn",
     diffuseTexture: require('./res/volcano.png'),
   }
-})
+});
+
+ViroAnimations.registerAnimations({
+  rotate: {properties:{rotateY: "+=45"}, duration: 1000},
+});
 
 var styles = StyleSheet.create({
   helloWorldTextStyle: {
